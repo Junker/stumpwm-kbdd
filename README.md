@@ -44,8 +44,8 @@ git clone https://github.com/Junker/stumpwm-kbdd kbdd
 
 ### Parameters
 
-- kbdd:\*layouts\* - List of layouts defined in xorg
-  (can see with: "setxkbmap -query|grep layout")
+- kbdd:\*layouts\* - Reuqired. List of layouts defined in xorg
+  (can see with: "setxkbmap -query | grep layout")
 
 ### Modeline
 
