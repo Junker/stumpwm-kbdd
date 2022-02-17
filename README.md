@@ -1,6 +1,6 @@
 # StumpWM KBDD
 
-Keyboard per window layout switcher and modeline module for StumpWM
+Per window XKB layout switcher and modeline module for StumpWM.
 
 ## Requirements
 
@@ -34,17 +34,18 @@ git clone https://github.com/Junker/stumpwm-kbdd kbdd
 ### Functions
 
 ```lisp
-(kbdd:get-current-layout) ; :EN
+(kbdd:get-current-layout) ; :US
 (kbdd:get-current-layout-id) ; 0
 (kbdd:set-layout-id 0)
-(kbdd:set-layout :EN)
+(kbdd:set-layout :US)
 (kbdd:next-layout)
 (kbdd:prev-layout)
 ```
 
 ### Parameters
 
-- kbdd:\*layouts\* - required. set list of layouts defined in xorg
+- kbdd:\*layouts\* - List of layouts defined in xorg
+  (can see with: "setxkbmap -query|grep layout")
 
 ### Modeline
 
