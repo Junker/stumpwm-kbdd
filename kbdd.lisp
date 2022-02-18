@@ -60,12 +60,15 @@
   (setf *dbus-obj* (dbus:make-object-from-introspection *dbus-conn*
                                                         +path+
                                                         +destination+))
+
   (setf *current-layout* (get-current-layout)))
 
 (defun subscribe ()
-  (dbus:add-match *dbus-bus* :interface +interface+)
   (setf *server-thread*
-        (bt:make-thread #'(lambda() (dbus:publish-objects *dbus-bus*))
+        (bt:make-thread #'(lambda()
+                            (dbus:with-open-bus (bus (dbus:session-server-addresses))
+                              (dbus:add-match bus :interface +interface+ :type :signal)
+                              (dbus:publish-objects bus)))
                         :name "kbdd-listener")))
 
 (defun kbdd ()
