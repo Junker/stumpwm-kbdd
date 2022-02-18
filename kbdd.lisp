@@ -2,9 +2,9 @@
 
 (in-package :kbdd)
 
-(defconstant +path+ "/ru/gentoo/KbddService")
-(defconstant +destination+ "ru.gentoo.KbddService")
-(defconstant +interface+ "ru.gentoo.kbdd")
+(defvar *path* "/ru/gentoo/KbddService")
+(defvar *destination* "ru.gentoo.KbddService")
+(defvar *interface* "ru.gentoo.kbdd")
 
 (defvar *server-thread* nil)
 (defvar *dbus-conn* nil)
@@ -16,7 +16,7 @@
 
 
 (defmacro dbus-call (fun-name &rest args)
-  `(dbus:object-invoke *dbus-obj* +interface+ ,fun-name ,@args))
+  `(dbus:object-invoke *dbus-obj* *interface* ,fun-name ,@args))
 
 (defun id-to-name (id)
   (cdr (assoc id *locales*)))
@@ -58,8 +58,8 @@
                                     :connection *dbus-conn*)))
 
   (setf *dbus-obj* (dbus:make-object-from-introspection *dbus-conn*
-                                                        +path+
-                                                        +destination+))
+                                                        *path*
+                                                        *destination*))
 
   (setf *current-layout* (get-current-layout)))
 
@@ -67,7 +67,7 @@
   (setf *server-thread*
         (bt:make-thread #'(lambda()
                             (dbus:with-open-bus (bus (dbus:session-server-addresses))
-                              (dbus:add-match bus :interface +interface+ :type :signal)
+                              (dbus:add-match bus :interface *interface* :type :signal)
                               (dbus:publish-objects bus)))
                         :name "kbdd-listener")))
 
@@ -79,10 +79,10 @@
   (declare (ignore ml))
   (string *current-layout*))
 
-(dbus:define-dbus-object kbdd-service (:path +path+))
+(dbus:define-dbus-object kbdd-service (:path *path*))
 
 (dbus:define-dbus-signal-handler (kbdd-service layout-changed) ((id :uint32))
-  (:interface +interface+)
+  (:interface *interface*)
   (:name "layoutChanged")
 
   (setf *current-layout* (id-to-name id)))
