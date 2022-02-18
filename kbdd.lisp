@@ -52,10 +52,9 @@
   (dbus:authenticate (dbus:supported-authentication-mechanisms *dbus-conn*)
                      *dbus-conn*)
 
-  (let ((name (dbus:hello *dbus-conn*)))
-    (setf *dbus-bus* (make-instance 'dbus::bus
-                                    :name name
-                                    :connection *dbus-conn*)))
+  (setf *dbus-bus* (make-instance 'dbus::bus
+                                  :name (dbus:hello *dbus-conn*)
+                                  :connection *dbus-conn*))
 
   (setf *dbus-obj* (dbus:make-object-from-introspection *dbus-conn*
                                                         *path*
