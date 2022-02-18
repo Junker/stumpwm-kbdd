@@ -11,7 +11,6 @@
 (defvar *dbus-bus* nil)
 (defvar *dbus-obj* nil)
 
-
 (defvar *locales* '((0 . :en)))
 (defvar *current-layout* nil)
 
@@ -20,7 +19,7 @@
   `(dbus:object-invoke *dbus-obj* +interface+ ,fun-name ,@args))
 
 (defun id-to-name (id)
-  (string (cdr (assoc id *locales*))))
+  (cdr (assoc id *locales*)))
 
 (defun name-to-id (name)
   (car (rassoc name *locales*)))
@@ -75,7 +74,7 @@
 
 (defun modeline (ml)
   (declare (ignore ml))
-  *current-layout*)
+  (string *current-layout*))
 
 (dbus:define-dbus-object kbdd-service (:path +path+))
 
