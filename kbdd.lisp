@@ -83,8 +83,7 @@
   (:interface +interface+)
   (:name "layoutChanged")
 
-  (setf *current-layout* (id-to-name id))
-  (stumpwm::update-all-mode-lines))
+  (setf *current-layout* (id-to-name id)))
 
 
 ;; modeline formatter.
