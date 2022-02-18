@@ -88,5 +88,19 @@
   (setf *current-layout* (id-to-name id)))
 
 
+(defcommand kbdd-next-layout () ()
+  "Switch to next layout"
+  (next-layout))
+
+(defcommand kbdd-prev-layout () ()
+  "Switch to previous layout"
+  (prev-layout))
+
+(defcommand kbdd-switch-layout () ()
+  "Switch layout"
+  (if (eq *current-layout* (cdar (last kbdd:*locales*)))
+      (set-layout-id 0)
+      (set-layout-id (+ (name-to-id *current-layout*) 1))))
+
 ;; modeline formatter.
 (add-screen-mode-line-formatter #\L #'modeline)
