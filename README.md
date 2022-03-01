@@ -22,10 +22,11 @@ git clone https://github.com/Junker/stumpwm-kbdd kbdd
 ## Usage
 
 ```lisp
-;; Required:
-(run-shell-command "/usr/bin/kbdd")
 ;; Optional. can be defined in Xorg config
 (run-shell-command "setxkbmap -layout us,ru")
+
+;; Required. start KBDD daemon
+(run-shell-command "/usr/bin/kbdd")
 
 ;; init module
 (setf kbdd:*locales* '((0 . :US) (1 . :RU)))
