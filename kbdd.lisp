@@ -82,9 +82,9 @@
 (defun modeline (ml)
   (declare (ignore ml))
   (format-with-on-click-id (string *current-layout*)
-                           :ml-kbdd-on-click-switch-layout nil))
+                           :ml-kbdd-on-click nil))
 
-(defun ml-on-click-switch-layout (code id &rest rest)
+(defun ml-on-click (code id &rest rest)
   (declare (ignore rest))
   (declare (ignore id))
   (let ((button (stumpwm::decode-button-code code)))
@@ -99,8 +99,7 @@
        (prev-layout))))
   (stumpwm::update-all-mode-lines))
 
-(register-ml-on-click-id :ml-kbdd-on-click-switch-layout
-                         #'ml-on-click-switch-layout)
+(register-ml-on-click-id :ml-kbdd-on-click #'ml-on-click)
 
 (dbus:define-dbus-object kbdd-service (:path *path*))
 
