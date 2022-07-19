@@ -37,6 +37,11 @@
 (defun prev-layout ()
   (dbus-call "prev_layout"))
 
+(defun switch-layout ()
+  (if (eq *current-layout* (cdar (last *locales*)))
+      (set-layout-id 0)
+      (set-layout-id (+ (name-to-id *current-layout*) 1))))
+
 (defun get-current-layout ()
   (id-to-name (get-current-layout-id)))
 
@@ -76,7 +81,26 @@
 
 (defun modeline (ml)
   (declare (ignore ml))
-  (string *current-layout*))
+  (format-with-on-click-id (string *current-layout*)
+                           :ml-kbdd-on-click-switch-layout nil))
+
+(defun ml-on-click-switch-layout (code id &rest rest)
+  (declare (ignore rest))
+  (declare (ignore id))
+  (let ((button (stumpwm::decode-button-code code)))
+    (case button
+      ((:left-button)
+       (switch-layout))
+      ((:right-button)
+       (switch-layout))
+      ((:wheel-up)
+       (next-layout))
+      ((:wheel-down)
+       (prev-layout))))
+  (stumpwm::update-all-mode-lines))
+
+(register-ml-on-click-id :ml-kbdd-on-click-switch-layout
+                         #'ml-on-click-switch-layout)
 
 (dbus:define-dbus-object kbdd-service (:path *path*))
 
@@ -97,9 +121,7 @@
 
 (defcommand kbdd-switch-layout () ()
   "Switch layout"
-  (if (eq *current-layout* (cdar (last kbdd:*locales*)))
-      (set-layout-id 0)
-      (set-layout-id (+ (name-to-id *current-layout*) 1))))
+  (switch-layout))
 
 ;; modeline formatter.
 (add-screen-mode-line-formatter #\L #'modeline)

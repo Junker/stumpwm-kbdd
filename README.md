@@ -48,3 +48,10 @@ git clone https://github.com/Junker/stumpwm-kbdd kbdd
 ### Modeline
 
 %L - keyboard layout formatter
+
+### Modeline mouse interaction
+
+- **left button:** switch layout
+- **right button:** switch layout
+- **wheel up:** next layout
+- **wheel down:** previous layout
