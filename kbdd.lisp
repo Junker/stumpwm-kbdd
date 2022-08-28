@@ -99,7 +99,8 @@
        (prev-layout))))
   (stumpwm::update-all-mode-lines))
 
-(register-ml-on-click-id :ml-kbdd-on-click #'ml-on-click)
+(when (fboundp 'stumpwm::register-ml-on-click-id) ;check in case of old stumpwm version
+  (register-ml-on-click-id :ml-kbdd-on-click #'ml-on-click))
 
 (dbus:define-dbus-object kbdd-service (:path *path*))
 
